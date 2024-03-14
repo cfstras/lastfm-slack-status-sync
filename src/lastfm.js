@@ -44,7 +44,7 @@ function getRecentTracks () {
 
 function getMostRecentTrack () {
   return getRecentTracks().then(tracks => {
-    const mostRecentTrack = tracks[0]  
+    const mostRecentTrack = tracks[0]
     console.info(new Date(), `Most recent track: ${JSON.stringify(mostRecentTrack)}`)
     return mostRecentTrack
   })

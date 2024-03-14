@@ -9,7 +9,7 @@ const { WebClient } = require('@slack/client')
 const slack = new WebClient(SLACK_ACCESS_TOKEN)
 
 function setStatus (text, emoji) {
-  const profileData = { status_text: text, status_emoji: `:${emoji}:` }
+  const profileData = { status_text: text, status_emoji: emoji }
   console.info(new Date(), `Set Slack status to "${profileData.status_text}" with a emoji of "${profileData.status_emoji}"`)
   return slack.users.profile.set({ profile: profileData })
 }

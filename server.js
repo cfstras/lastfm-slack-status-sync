@@ -15,12 +15,12 @@ const slack = require('./src/slack')
 function getStatusEmoji(nowPlaying) {
   if (THEME === 'lastfm') {
     if (nowPlaying) {
-      return 'lastfm-scrobbling'
+      return ':lastfm-scrobbling:'
     } else {
-      return 'lastfm'
+      return ':lastfm:'
     }
   }
-  return 'notes'
+  return ':notes:'
 }
 
 function getPlayingText() {
@@ -29,7 +29,7 @@ function getPlayingText() {
 }
 
 function formatMostRecentTrack(mostRecentTrack) {
-  const { name, artist, nowPlaying } = mostRecentTrack
+  const { name, artist } = mostRecentTrack
 
   let statusText = `${name} — ${artist}`
 
@@ -39,6 +39,9 @@ function formatMostRecentTrack(mostRecentTrack) {
 function syncLastmSlackStatus() {
   return lastfm.getMostRecentTrack()
     .then(mostRecentTrack => {
+      if (!mostRecentTrack.nowPlaying) {
+        return slack.setStatus("", "")
+      }
       const statusText = formatMostRecentTrack(mostRecentTrack)
       const statusEmoji = getStatusEmoji(mostRecentTrack.nowPlaying)
       return slack.setStatus(statusText, statusEmoji)
