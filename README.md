@@ -17,25 +17,28 @@ Last.fm in theory works with any music source not just Spotify but still has [go
 
 
 ## Installation
-1. [Remix this app 🎤](https://glitch.com/edit/#!/remix/lastfm-slack-status-sync)
-2. Add Slack emojis from assets
+1. Add Slack emojis from assets
 
-> In the assets section there are Last.fm and Scrobble icons. [Add the to Slack](https://slack.com/customize/emoji) with the names `lastfm` and `lastfm-scrobbling`.
+    In the assets section there are Last.fm and Scrobble icons. [Add the to Slack](https://slack.com/customize/emoji) with the names `lastfm` and `lastfm-scrobbling`.
 
-> ![Last.fm icon](https://cdn.glitch.com/01be6f03-5472-446b-a3ef-e7b33f248ca5%2Flastfm.png?1533599677270)
-> ![Scrobble GIF](https://cdn.glitch.com/01be6f03-5472-446b-a3ef-e7b33f248ca5%2Fscrobble.gif?1533599699547)
+     ![Last.fm icon](https://cdn.glitch.com/01be6f03-5472-446b-a3ef-e7b33f248ca5%2Flastfm.png?1533599677270)
+     ![Scrobble GIF](https://cdn.glitch.com/01be6f03-5472-446b-a3ef-e7b33f248ca5%2Fscrobble.gif?1533599699547)
 
-3. [Get Last.fm API key and secret](https://www.last.fm/api/account/create)
+1. Copy `.env.example` to `.env`
+1. [Get Last.fm API key and secret](https://www.last.fm/api/account/create)
 
-> Add API key and secret environment variables to `.env`
+    - Add API key and secret environment variables to `.env`
 
-4. [Create a Slack app](https://api.slack.com/apps/) with `user.profile:write` scope permissions.
-> Add the app to your workspace and copy the full `xoxp-xxx-xxx` token to `.env`
+1. [Create a Slack app](https://api.slack.com/apps/) 
+    - In _OAuth & Permissions_:
+        - under _User Token Scopes_, set `users.profile:write`.
+        - under _OAuth Tokens for Your Workspace_, click Install to workspace
+        - Copy the full `xoxp-xxx-xxx` token to `.env` in `SLACK_ACCESS_TOKEN`
 
-5. We'll use [Uptime Robot](https://uptimerobot.com) to poll the Glitch app every minute to update the status.
-> Create an account on Uptime Robot
-> Set the `BOT_ENDPOINT` variable to something secret
-> For example if BOT_ENDPOINT is 'runescape' your URL could be `https://lastfm-slack-status-sync.glitch.me/sync-runescape`
-> Update Uptime Robot accordingly
+1. Set a `THEME` variable to 'lastfm' for Last.fm theme or 'none' for emojis (See screenshots)
 
-6. Set a `THEME` variable to 'lastfm' for Last.fm theme or 'none' for emojis (See screenshots)
+1. Run:
+    ```bash
+    npm install
+    npm start
+    ```
