@@ -12,8 +12,14 @@ const app = express()
 const lastfm = require('./src/lastfm')
 const slack = require('./src/slack')
 
-function getStatusEmoji() {
-  if (THEME === 'lastfm') return 'lastfm'
+function getStatusEmoji(nowPlaying) {
+  if (THEME === 'lastfm') {
+    if (nowPlaying) {
+      return 'lastfm-scrobbling'
+    } else {
+      return 'lastfm'
+    }
+  }
   return 'notes'
 }
 
@@ -27,11 +33,6 @@ function formatMostRecentTrack(mostRecentTrack) {
 
   let statusText = `${name} — ${artist}`
 
-  if (nowPlaying) {
-    const playingText = getPlayingText()
-    statusText += ` :lastfm-scrobbling: ${playingText}`
-  }
-
   return statusText
 }
 
@@ -39,7 +40,7 @@ function syncLastmSlackStatus() {
   return lastfm.getMostRecentTrack()
     .then(mostRecentTrack => {
       const statusText = formatMostRecentTrack(mostRecentTrack)
-      const statusEmoji = getStatusEmoji()
+      const statusEmoji = getStatusEmoji(mostRecentTrack.nowPlaying)
       return slack.setStatus(statusText, statusEmoji)
     })
 }
@@ -61,7 +62,6 @@ app.get(`/sync-${BOT_ENDPOINT}`, (request, response) => {
 
 function run() {
     syncLastmSlackStatus()
-    .then(() => console.log("success"))
     .catch(error => console.error(error))
 }
 
